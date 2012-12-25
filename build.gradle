@@ -1,0 +1,21 @@
+apply plugin : 'groovy'
+apply plugin : 'idea'
+
+group = 'org.mikeneck.twr'
+version = '1.0'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral ()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:2.0.5'
+    testCompile ('junit:junit-dep:4.11') {
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
+    }
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
