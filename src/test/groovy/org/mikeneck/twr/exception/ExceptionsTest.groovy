@@ -35,4 +35,12 @@ class ExceptionsTest {
             assert exception.toString().contains('OperationalException caused at ')
         }
     }
+
+    static class ConstructorExceptionTest {
+        @Test
+        void testToString () {
+            def exception = new ConstructorException(this)
+            assert exception.toString().contains('ConstructorException caused at ')
+        }
+    }
 }
