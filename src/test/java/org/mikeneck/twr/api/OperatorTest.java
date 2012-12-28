@@ -20,12 +20,16 @@ public class OperatorTest {
 
     @Test
     public void testMethodName () {
-        MockOperator operator = new MockOperator();
+        MockOperator operator = new MockOperator(null, null);
         assertThat(operator.delegateNow(),
                 is("testMethodName method in org.mikeneck.twr.api.OperatorTest"));
     }
 
     static class MockOperator extends Operator {
+        public MockOperator(Class<? extends Operator> which, ExecutionPatterns patterns) {
+            super(which, patterns);
+        }
+
         @Override
         public void execute() throws OperationalException {}
 

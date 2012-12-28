@@ -1,9 +1,6 @@
 package org.mikeneck.twr.api;
 
-import org.mikeneck.twr.exception.CloseException;
-import org.mikeneck.twr.exception.ConstructorException;
-import org.mikeneck.twr.exception.OpenException;
-import org.mikeneck.twr.exception.OperationalException;
+import org.mikeneck.twr.exception.*;
 
 /**
  * @author : mike
@@ -13,118 +10,69 @@ public enum  ExecutionPatterns {
 
     ON_CONSTRUCTOR {
         @Override
-        public void execute(Class <? extends Operator> which) throws OperationalException {
-            // TODO auto generated body
-
+        protected void work(Object by) throws ResourceException {
+            throw new ConstructorException(by);
         }
 
         @Override
-        public boolean isReady(Class <? extends Operator> which) {
-            // TODO auto generated body
-            return false;
-        }
-
-        @Override
-        public void open(Class <? extends Operator> which) throws OpenException {
-            // TODO auto generated body
-
-        }
-
-        @Override
-        public void close(Class <? extends Operator> which) throws CloseException {
-            // TODO auto generated body
-
-        }
-
-        @Override
-        public void construction(Class<? extends Operator> which) throws ConstructorException {
-            // TODO auto generated body
-
+        public void construction(Object by) throws ConstructorException {
+            try {
+                this.work(by);
+            } catch (ResourceException e) {
+                throw ConstructorException.class.cast(e);
+            }
         }
     }, ON_OPEN {
         @Override
-        public void close(Class<? extends Operator> which) throws CloseException {
-            // TODO auto generated body
+        protected void work(Object by) throws ResourceException {
+            throw new OpenException(by);
         }
 
         @Override
-        public void construction(Class<? extends Operator> which) throws ConstructorException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public void execute(Class<? extends Operator> which) throws OperationalException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public boolean isReady(Class<? extends Operator> which) {
-            return false;  // TODO auto generated body
-        }
-
-        @Override
-        public void open(Class<? extends Operator> which) throws OpenException {
-            // TODO auto generated body
+        public void open(Object by) throws OpenException {
+            try {
+                this.work(by);
+            } catch (ResourceException e) {
+                throw OpenException.class.cast(e);
+            }
         }
     }, ON_EXECUTION {
         @Override
-        public void close(Class<? extends Operator> which) throws CloseException {
-            // TODO auto generated body
+        protected void work(Object by) throws ResourceException {
+            throw new OperationalException(by);
         }
 
         @Override
-        public void construction(Class<? extends Operator> which) throws ConstructorException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public void execute(Class<? extends Operator> which) throws OperationalException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public boolean isReady(Class<? extends Operator> which) {
-            return false;  // TODO auto generated body
-        }
-
-        @Override
-        public void open(Class<? extends Operator> which) throws OpenException {
-            // TODO auto generated body
+        public void execute(Object by) throws OperationalException {
+            try {
+                this.work(by);
+            } catch (ResourceException e) {
+                OperationalException.class.cast(e);
+            }
         }
     }, ON_CLOSE {
         @Override
-        public void close(Class<? extends Operator> which) throws CloseException {
-            // TODO auto generated body
+        protected void work(Object by) throws ResourceException {
+            throw new CloseException(by);
         }
 
         @Override
-        public void construction(Class<? extends Operator> which) throws ConstructorException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public void execute(Class<? extends Operator> which) throws OperationalException {
-            // TODO auto generated body
-        }
-
-        @Override
-        public boolean isReady(Class<? extends Operator> which) {
-            return false;  // TODO auto generated body
-        }
-
-        @Override
-        public void open(Class<? extends Operator> which) throws OpenException {
-            // TODO auto generated body
+        public void close(Object by) throws CloseException {
+            try {
+                work(by);
+            } catch (ResourceException e) {
+                CloseException.class.cast(e);
+            }
         }
     };
 
-    abstract public void construction(Class<? extends Operator> which) throws ConstructorException;
+    public void construction(Object by) throws ConstructorException {}
 
-    abstract public void execute(Class <? extends Operator> which) throws OperationalException;
+    public void open(Object by) throws OpenException {}
 
-    abstract public boolean isReady(Class <? extends Operator> which);
+    public void execute(Object by) throws OperationalException {}
 
-    abstract public void open(Class <? extends Operator> which) throws OpenException;
+    public void close(Object by) throws CloseException {}
 
-    abstract public void close(Class <? extends Operator> which) throws CloseException;
+    abstract protected void work (Object by) throws ResourceException;
 }
