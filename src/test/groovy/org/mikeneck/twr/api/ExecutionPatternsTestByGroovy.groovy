@@ -1,5 +1,6 @@
 package org.mikeneck.twr.api
 
+import org.mikeneck.twr.api.util.MockOperator
 import org.mikeneck.twr.exception.CloseException
 import org.mikeneck.twr.exception.ConstructorException
 import org.mikeneck.twr.exception.OpenException
@@ -30,33 +31,5 @@ class ExecutionPatternsTestByGroovy extends Specification {
         ON_OPEN         | OpenException
         ON_EXECUTION    | OperationalException
         ON_CLOSE        | CloseException
-    }
-
-    static class MockOperator extends Operator {
-
-        MockOperator (Class <? extends Operator> operator, ExecutionPatterns patterns) {
-            super (operator, patterns)
-            this.patterns.construction(this)
-        }
-
-        @Override
-        void execute() throws OperationalException {
-            this.patterns.execute(this)
-        }
-
-        @Override
-        boolean isReady() {
-            false
-        }
-
-        @Override
-        void open() throws OpenException {
-            this.patterns.open(this)
-        }
-
-        @Override
-        void close() throws CloseException {
-            this.patterns.close(this)
-        }
     }
 }
