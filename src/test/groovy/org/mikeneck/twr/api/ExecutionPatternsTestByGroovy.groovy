@@ -6,6 +6,8 @@ import org.mikeneck.twr.exception.ConstructorException
 import org.mikeneck.twr.exception.OpenException
 import org.mikeneck.twr.exception.OperationalException
 import spock.lang.Specification
+import spock.lang.Unroll
+
 import static org.mikeneck.twr.api.ExecutionPatterns.*
 
 /**
@@ -17,7 +19,8 @@ import static org.mikeneck.twr.api.ExecutionPatterns.*
  */
 class ExecutionPatternsTestByGroovy extends Specification {
 
-    def "Exceptions thrown validly" () {
+    @Unroll
+    def "#pattern throws #exception" () {
         when   :
         pattern.work(new MockOperator(MockOperator, pattern))
 
