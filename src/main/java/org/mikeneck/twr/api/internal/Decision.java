@@ -19,11 +19,36 @@ public class Decision implements Operation {
 
     private final Operator operator;
 
-    public Decision(DecisionMaterial material) throws ConstructorException {
-        this.operator = material.getOperator();
-        this.classCondition = this.operator.getClass().equals(material.getWhich());
-        this.pattern = material.getPatterns();
+    @Deprecated
+    protected Decision () {
+        this (false);
+    }
 
+    @Deprecated
+    private Decision (boolean classCondition) {
+        this.classCondition = classCondition;
+        this.pattern = null;
+        this.operator = null;
+    }
+
+    public Decision (Decision decision, Operator op) throws ConstructorException {
+        this (decision.pattern, decision.operator, op.getClass());
+    }
+
+    public Decision(DecisionMaterial material) throws ConstructorException {
+        this (material.getPatterns(), material.getOperator(), material.getWhich());
+    }
+
+    private Decision (ExecutionPatterns pattern, Operator operator, Class<? extends Operator> which)
+            throws ConstructorException {
+        this.classCondition = operator.getClass().equals(which);
+        this.pattern = pattern;
+        this.operator = operator;
+
+        construct();
+    }
+
+    private void construct() throws ConstructorException {
         if (workNow(ExecutionPatterns.ON_CONSTRUCTOR))
             pattern.construction(operator);
     }
@@ -40,7 +65,7 @@ public class Decision implements Operation {
 
     @Override
     public boolean isReady() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     @Override
@@ -53,5 +78,12 @@ public class Decision implements Operation {
     public void close() throws CloseException {
         if (workNow(ExecutionPatterns.ON_CLOSE))
             pattern.close(operator);
+    }
+
+    /**
+     * @author mike
+     */
+    public static class NoDecision extends Decision {
+        public NoDecision () {super();}
     }
 }

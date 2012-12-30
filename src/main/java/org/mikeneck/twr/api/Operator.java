@@ -17,6 +17,15 @@ public abstract class Operator implements Operation {
 
     protected final Decision decision;
 
+    @Deprecated
+    protected Operator () throws ConstructorException {
+        this.decision = new Decision.NoDecision();
+    }
+
+    public Operator (Operator operator) throws ConstructorException {
+        this.decision = new Decision(operator.getDecision(), this);
+    }
+
     public Operator (Class<? extends Operator> which, ExecutionPatterns patterns)
             throws ConstructorException {
         DecisionMaterial material = new DecisionMaterial(which, patterns, this);
@@ -45,5 +54,9 @@ public abstract class Operator implements Operation {
 
     private static class CallIndex {
         private int index = 1;
+    }
+
+    public Decision getDecision() {
+        return decision;
     }
 }
