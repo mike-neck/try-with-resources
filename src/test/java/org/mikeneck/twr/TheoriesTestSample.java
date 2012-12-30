@@ -86,6 +86,7 @@ public class TheoriesTestSample {
         }
 
         @DataPoints
+        @SuppressWarnings("unchecked")
         public static Class <? extends AnimalException>[] exceptions () {
             return new Class[] {
                     犬Exception.class, 猫Exception.class
