@@ -42,7 +42,10 @@ public class TryWithResources implements Runnable {
                 .append(pattern)
                 .append(", [")
                 .append(exception)
-                .append("] is thrown.");
+                .append("] is thrown.")
+                .append(" And there are ")
+                .append(exception.getSuppressed().length)
+                .append(" suppressed throwable.");
         out.println(builder.toString());
     }
 
