@@ -23,7 +23,9 @@ public abstract class Operator implements Operation {
     }
 
     public Operator (Operator operator) throws ConstructorException {
-        this.decision = new Decision(operator.getDecision(), this);
+        Decision dec = operator.getDecision();
+        DecisionMaterial material = new DecisionMaterial(dec.getCausedClass(), dec.getPattern(), this);
+        this.decision = new Decision(material);
     }
 
     public Operator (Class<? extends Operator> which, ExecutionPatterns patterns)

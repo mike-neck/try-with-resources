@@ -19,6 +19,8 @@ public class Decision implements Operation {
 
     private final Operator operator;
 
+    private final Class<? extends Operator> causedClass;
+
     @Deprecated
     protected Decision () {
         this (false);
@@ -29,14 +31,11 @@ public class Decision implements Operation {
         this.classCondition = classCondition;
         this.pattern = null;
         this.operator = null;
-    }
-
-    public Decision (Decision decision, Operator op) throws ConstructorException {
-        this (decision.pattern, decision.operator, op.getClass());
+        this.causedClass = null;
     }
 
     public Decision(DecisionMaterial material) throws ConstructorException {
-        this (material.getPatterns(), material.getOperator(), material.getWhich());
+        this(material.getPatterns(), material.getOperator(), material.getWhich());
     }
 
     private Decision (ExecutionPatterns pattern, Operator operator, Class<? extends Operator> which)
@@ -44,6 +43,7 @@ public class Decision implements Operation {
         this.classCondition = operator.getClass().equals(which);
         this.pattern = pattern;
         this.operator = operator;
+        this.causedClass = which;
 
         construct();
     }
@@ -78,6 +78,14 @@ public class Decision implements Operation {
     public void close() throws CloseException {
         if (workNow(ExecutionPatterns.ON_CLOSE))
             pattern.close(operator);
+    }
+
+    public Class<? extends Operator> getCausedClass() {
+        return causedClass;
+    }
+
+    public ExecutionPatterns getPattern() {
+        return pattern;
     }
 
     /**

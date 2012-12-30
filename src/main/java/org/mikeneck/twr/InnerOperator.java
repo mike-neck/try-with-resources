@@ -13,7 +13,7 @@ import org.mikeneck.twr.exception.OperationalException;
  */
 public class InnerOperator extends Operator {
 
-    private Operator outer;
+    private final Operator outer;
 
     public InnerOperator (Operator out) throws ConstructorException {
         super(out);
