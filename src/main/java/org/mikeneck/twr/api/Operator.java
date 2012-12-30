@@ -1,5 +1,9 @@
 package org.mikeneck.twr.api;
 
+import org.mikeneck.twr.api.internal.Decision;
+import org.mikeneck.twr.api.internal.DecisionMaterial;
+import org.mikeneck.twr.exception.ConstructorException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,13 +15,12 @@ import static java.lang.System.out;
  */
 public abstract class Operator implements Operation {
 
-    protected final Class <? extends Operator> which;
+    protected final Decision decision;
 
-    protected final ExecutionPatterns patterns;
-
-    public Operator (Class<? extends Operator> which, ExecutionPatterns patterns) {
-        this.which = which;
-        this.patterns = patterns;
+    public Operator (Class<? extends Operator> which, ExecutionPatterns patterns)
+            throws ConstructorException {
+        DecisionMaterial material = new DecisionMaterial(which, patterns, this);
+        decision = new Decision(material);
     }
 
     protected String now () {

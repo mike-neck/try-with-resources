@@ -24,9 +24,10 @@ public class ExecutionPatternsTestByJava {
     @Theory
     public void exceptionThrownValidly (Regulations regulation) {
         ExecutionPatterns ptn = regulation.executePattern();
-        Operator operator = new MockOperator(MockOperator.class, ptn);
-        ResourceException exception = new ExceptionNotHappened(operator);
+        ResourceException exception = null;
         try {
+            Operator operator = new MockOperator(MockOperator.class, ptn);
+            exception = new ExceptionNotHappened(operator);
             ptn.work(operator);
         } catch (ResourceException e) {
             exception = e;
