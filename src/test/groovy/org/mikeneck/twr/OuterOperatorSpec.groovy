@@ -33,4 +33,25 @@ class OuterOperatorSpec extends Specification {
         ON_EXECUTION    | OperationalException
         ON_CLOSE        | CloseException
     }
+
+    @Unroll
+    def 'Exception [#exception] caused by OuterOperator on #pattern' () {
+        when  :
+        def outer = new OuterOperator(OuterOperator, pattern)
+        def operator = new InnerOperator(outer)
+        operator.open()
+        operator.execute()
+        operator.close()
+
+        then  :
+        def ex = thrown(exception)
+        assert ex.object.class == OuterOperator
+
+        where  :
+        pattern         | exception
+        ON_CONSTRUCTOR  | ConstructorException
+        ON_OPEN         | OpenException
+        ON_EXECUTION    | OperationalException
+        ON_CLOSE        | CloseException
+    }
 }
