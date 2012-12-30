@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mikeneck.twr.api.util.MockOperator;
 import org.mikeneck.twr.exception.*;
 
-
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;

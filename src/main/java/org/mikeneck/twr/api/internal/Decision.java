@@ -3,7 +3,6 @@ package org.mikeneck.twr.api.internal;
 import org.mikeneck.twr.api.ExecutionPatterns;
 import org.mikeneck.twr.api.Operation;
 import org.mikeneck.twr.api.Operator;
-import org.mikeneck.twr.api.internal.DecisionMaterial;
 import org.mikeneck.twr.exception.CloseException;
 import org.mikeneck.twr.exception.ConstructorException;
 import org.mikeneck.twr.exception.OpenException;
