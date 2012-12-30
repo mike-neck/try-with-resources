@@ -47,7 +47,7 @@ public enum  ExecutionPatterns {
             try {
                 this.work(by);
             } catch (ResourceException e) {
-                OperationalException.class.cast(e);
+                throw OperationalException.class.cast(e);
             }
         }
     }, ON_CLOSE {
@@ -61,7 +61,7 @@ public enum  ExecutionPatterns {
             try {
                 work(by);
             } catch (ResourceException e) {
-                CloseException.class.cast(e);
+                throw CloseException.class.cast(e);
             }
         }
     };
