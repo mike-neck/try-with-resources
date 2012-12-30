@@ -35,3 +35,7 @@ idea.project.ipr {
 task wrapper (type : Wrapper) {
     gradleVersion = 1.0
 }
+
+jar {
+    manifest.attributes 'Main-Class' : 'org.mikeneck.twr.TryWithResources', 'Implementation-Version' : version
+}
